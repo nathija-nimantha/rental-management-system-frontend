@@ -98,9 +98,15 @@ export class ManageRentalsComponent implements OnInit {
   processReturn(rental: any) {
     const currentDate = new Date();
     const dueDate = new Date(rental.dueDate);
-    const extraDays = Math.max(0, Math.floor((currentDate.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24)));
 
-    const fine = extraDays * rental.finePerDay;
+    const extraDays = Math.max(
+      0,
+      Math.floor((currentDate.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24))
+    );
+
+    const finePerDay = rental.finePerDay || 0;
+    const fine = extraDays * finePerDay;
+
     const totalWithFine = rental.totalCost + fine;
 
     alert(
@@ -110,8 +116,9 @@ export class ManageRentalsComponent implements OnInit {
       `Due Date: ${rental.dueDate}\n` +
       `Return Date: ${currentDate.toISOString().split('T')[0]}\n` +
       `Extra Days: ${extraDays}\n` +
-      `Fine: $${fine.toFixed(2)}\n` +
-      `Total Amount (with Fine): $${totalWithFine.toFixed(2)}`
+      `Fine Per Day: Rs.${finePerDay.toFixed(2)}\n` +
+      `Total Fine: Rs.${fine.toFixed(2)}\n` +
+      `Total Amount (with Fine): Rs.${totalWithFine.toFixed(2)}`
     );
 
     const updatePayload = {
@@ -122,17 +129,30 @@ export class ManageRentalsComponent implements OnInit {
 
     this.http.put(`${this.apiUrl}/${rental.rentalId}`, updatePayload).subscribe(
       () => {
-        alert('Return processed successfully!');
         this.getAllRentals();
       },
       (error) => console.error('Error processing return:', error)
     );
   }
 
-  viewBill(rental: any) {
-    this.router.navigate(['/rental-bill'], { state: { rental } });
-  }
 
+  viewBill(rental: any) {
+    const customerApiUrl = `http://localhost:8080/api/customers/${rental.customerId}`;
+
+    this.http.get<any>(customerApiUrl).subscribe(
+      (customer) => {
+        const rentalBill = {
+          ...rental,
+          customerName: customer.customerName,
+        };
+        this.router.navigate(['/rental-bill'], { state: { rentalBill } });
+      },
+      (error) => {
+        console.error('Error fetching customer details:', error);
+        alert('Failed to fetch customer details for the rental bill.');
+      }
+    );
+  }
 
   resetForm() {
     this.rentalForm = {

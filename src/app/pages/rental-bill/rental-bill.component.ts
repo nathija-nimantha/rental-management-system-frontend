@@ -8,15 +8,15 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./rental-bill.component.css'],
 })
 export class RentalBillComponent implements OnInit {
-  rental: any;
+  rentalBill: any;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.rental = history.state.rental;
+    this.rentalBill = history.state.rentalBill;
 
-    if (!this.rental) {
-      alert('No rental data available!');
+    if (!this.rentalBill) {
+      alert('No rental bill data available!');
       window.history.back();
     }
   }
