@@ -1,1 +1,128 @@
-<p>manage-rentals works!</p>
+<div class="container py-4">
+  <h2 class="text-center mb-4">Manage Rentals</h2>
+
+  <div class="mb-3">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      (input)="searchRentals()"
+      class="form-control"
+      placeholder="Search Rentals by Rental ID"
+    />
+  </div>
+
+  <form (ngSubmit)="isEdit ? updateRental() : addRental()" class="mb-4">
+    <div class="row">
+      <div class="col-md-3 mb-2">
+        <input
+          type="text"
+          [(ngModel)]="rentalForm.customerId"
+          name="customerId"
+          class="form-control"
+          placeholder="Customer ID"
+          required
+        />
+      </div>
+      <div class="col-md-3 mb-2">
+        <input
+          type="date"
+          [(ngModel)]="rentalForm.rentalDate"
+          name="rentalDate"
+          class="form-control"
+          placeholder="Rental Date"
+          required
+        />
+      </div>
+      <div class="col-md-3 mb-2">
+        <input
+          type="date"
+          [(ngModel)]="rentalForm.returnDate"
+          name="returnDate"
+          class="form-control"
+          placeholder="Return Date"
+          required
+        />
+      </div>
+      <div class="col-md-3 mb-2">
+        <input
+          type="date"
+          [(ngModel)]="rentalForm.dueDate"
+          name="dueDate"
+          class="form-control"
+          placeholder="Due Date"
+          required
+        />
+      </div>
+      <div class="col-md-3 mb-2">
+        <input
+          type="number"
+          [(ngModel)]="rentalForm.totalCost"
+          name="totalCost"
+          class="form-control"
+          placeholder="Total Cost"
+          required
+        />
+      </div>
+      <div class="col-md-3 mb-2">
+        <input
+          type="number"
+          [(ngModel)]="rentalForm.fine"
+          name="fine"
+          class="form-control"
+          placeholder="Fine"
+          required
+        />
+      </div>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">
+        {{ isEdit ? 'Update' : 'Add' }} Rental
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary btnCancel"
+        (click)="resetForm()"
+        *ngIf="isEdit"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Rental ID</th>
+        <th>Customer ID</th>
+        <th>Rental Date</th>
+        <th>Return Date</th>
+        <th>Due Date</th>
+        <th>Total Cost</th>
+        <th>Fine</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let rental of rentals">
+        <td>{{ rental.rentalId }}</td>
+        <td>{{ rental.customerId }}</td>
+        <td>{{ rental.rentalDate }}</td>
+        <td>{{ rental.returnDate }}</td>
+        <td>{{ rental.dueDate }}</td>
+        <td>{{ rental.totalCost }}</td>
+        <td>{{ rental.fine }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm me-2" (click)="editRental(rental)">
+            Edit
+          </button>
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="deleteRental(rental.rentalId)"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
