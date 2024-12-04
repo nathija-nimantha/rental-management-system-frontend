@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -11,6 +12,7 @@ import { NgFor, NgIf } from '@angular/common';
   styleUrls: ['./manage-rentals.component.css'],
 })
 export class ManageRentalsComponent implements OnInit {
+
   rentals: any[] = [];
   rentalForm: any = {
     customerId: '',
@@ -26,7 +28,7 @@ export class ManageRentalsComponent implements OnInit {
 
   private apiUrl = 'http://localhost:8080/api/rentals';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
     this.getAllRentals();
@@ -92,6 +94,45 @@ export class ManageRentalsComponent implements OnInit {
       );
     }
   }
+
+  processReturn(rental: any) {
+    const currentDate = new Date();
+    const dueDate = new Date(rental.dueDate);
+    const extraDays = Math.max(0, Math.floor((currentDate.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24)));
+
+    const fine = extraDays * rental.finePerDay;
+    const totalWithFine = rental.totalCost + fine;
+
+    alert(
+      `Rental Processed:\n\n` +
+      `Customer ID: ${rental.customerId}\n` +
+      `Rental Date: ${rental.rentalDate}\n` +
+      `Due Date: ${rental.dueDate}\n` +
+      `Return Date: ${currentDate.toISOString().split('T')[0]}\n` +
+      `Extra Days: ${extraDays}\n` +
+      `Fine: $${fine.toFixed(2)}\n` +
+      `Total Amount (with Fine): $${totalWithFine.toFixed(2)}`
+    );
+
+    const updatePayload = {
+      ...rental,
+      returnDate: currentDate.toISOString().split('T')[0],
+      totalCost: totalWithFine,
+    };
+
+    this.http.put(`${this.apiUrl}/${rental.rentalId}`, updatePayload).subscribe(
+      () => {
+        alert('Return processed successfully!');
+        this.getAllRentals();
+      },
+      (error) => console.error('Error processing return:', error)
+    );
+  }
+
+  viewBill(rental: any) {
+    this.router.navigate(['/rental-bill'], { state: { rental } });
+  }
+
 
   resetForm() {
     this.rentalForm = {

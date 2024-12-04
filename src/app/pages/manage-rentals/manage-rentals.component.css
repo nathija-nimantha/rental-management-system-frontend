@@ -10,6 +10,7 @@ h2 {
 
 .table {
   margin-top: 20px;
+  vertical-align: middle;
 }
 
 .table-hover tbody tr:hover {
@@ -22,6 +23,10 @@ h2 {
 
 .btn-warning:hover {
   background-color: #e0a800;
+}
+
+.btn-sm {
+  min-width: 90px;
 }
 
 .btn-danger:hover {

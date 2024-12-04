@@ -115,11 +115,14 @@
           <button class="btn btn-warning btn-sm me-2" (click)="editRental(rental)">
             Edit
           </button>
-          <button
-            class="btn btn-danger btn-sm"
-            (click)="deleteRental(rental.rentalId)"
-          >
+          <button class="btn btn-danger btn-sm me-2" (click)="deleteRental(rental.rentalId)">
             Delete
+          </button>
+          <button class="btn btn-success btn-sm me-2" (click)="processReturn(rental)">
+            Process Return
+          </button>
+          <button class="btn btn-info btn-sm" (click)="viewBill(rental)">
+            View Bill
           </button>
         </td>
       </tr>
