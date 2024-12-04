@@ -1,1 +1,95 @@
-<p>manage-customers works!</p>
+<div class="container py-4">
+  <h2 class="text-center mb-4">Manage Customers</h2>
+
+  <div class="mb-3">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      (input)="searchCustomers()"
+      class="form-control"
+      placeholder="Search Customers by Name"
+    />
+  </div>
+
+  <form (ngSubmit)="isEdit ? updateCustomer() : addCustomer()" class="mb-4">
+    <div class="row">
+      <div class="col-md-4 mb-2">
+        <input
+          type="text"
+          [(ngModel)]="customerForm.customerName"
+          name="customerName"
+          class="form-control"
+          placeholder="Customer Name"
+          required
+        />
+      </div>
+      <div class="col-md-4 mb-2">
+        <input
+          type="text"
+          [(ngModel)]="customerForm.customerCity"
+          name="customerCity"
+          class="form-control"
+          placeholder="Customer City"
+          required
+        />
+      </div>
+      <div class="col-md-4 mb-2">
+        <input
+          type="text"
+          [(ngModel)]="customerForm.customerContact"
+          name="customerContact"
+          class="form-control"
+          placeholder="Customer Contact"
+          required
+        />
+      </div>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">
+        {{ isEdit ? 'Update' : 'Add' }} Customer
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary btnCancel"
+        (click)="resetForm()"
+        *ngIf="isEdit"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Customer ID</th>
+        <th>Name</th>
+        <th>City</th>
+        <th>Contact</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customers">
+        <td>{{ customer.customerId }}</td>
+        <td>{{ customer.customerName }}</td>
+        <td>{{ customer.customerCity }}</td>
+        <td>{{ customer.customerContact }}</td>
+        <td>
+          <button
+            class="btn btn-warning btn-sm me-2"
+            (click)="editCustomer(customer)"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="deleteCustomer(customer.customerId)"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
