@@ -1,1 +1,43 @@
-<p>home-page works!</p>
+<div class="dashboard">
+  <div class="overlay">
+    <div class="container text-center text-light py-5">
+      <h1 class="mb-4" data-aos="fade-down">Admin Dashboard</h1>
+      <p class="lead mb-5" data-aos="fade-up">
+        Welcome to Millennium Hardware. Manage Customers, Items, and Rentals efficiently.
+      </p>
+
+      <div class="row">
+        <div class="col-md-4 mb-4" data-aos="zoom-in" data-aos-delay="200">
+          <div class="card dashboard-card shadow">
+            <div class="card-body text-center">
+              <i class="bi bi-people-fill dashboard-icon"></i>
+              <h5 class="card-title mt-3">Customer Management</h5>
+              <p class="card-text">Add, update, and manage customer records.</p>
+              <a routerLink="/customers" class="btn btn-primary btn-block hover-effect">Manage Customers</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4" data-aos="zoom-in" data-aos-delay="400">
+          <div class="card dashboard-card shadow">
+            <div class="card-body text-center">
+              <i class="bi bi-box-seam dashboard-icon"></i>
+              <h5 class="card-title mt-3">Item Management</h5>
+              <p class="card-text">Track and organize your inventory seamlessly.</p>
+              <a routerLink="/items" class="btn btn-primary btn-block hover-effect">Manage Items</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4" data-aos="zoom-in" data-aos-delay="600">
+          <div class="card dashboard-card shadow">
+            <div class="card-body text-center">
+              <i class="bi bi-calendar2-check dashboard-icon"></i>
+              <h5 class="card-title mt-3">Rental Management</h5>
+              <p class="card-text">Oversee rentals and ensure timely returns.</p>
+              <a routerLink="/rentals" class="btn btn-primary btn-block hover-effect">Manage Rentals</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
