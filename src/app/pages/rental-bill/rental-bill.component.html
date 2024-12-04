@@ -1,0 +1,14 @@
+<div class="container py-4">
+  <h2 class="text-center mb-4">Rental Bill</h2>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Customer Name: {{ rental.customerName }}</h5>
+      <p class="card-text">
+        <strong>Rental Item:</strong> {{ rental.itemName }}<br />
+        <strong>Start Date:</strong> {{ rental.rentalDate }}<br />
+        <strong>Expected Return Date:</strong> {{ rental.dueDate }}<br />
+        <strong>Total Amount:</strong> ${{ rental.totalCost.toFixed(2) }}
+      </p>
+    </div>
+  </div>
+</div>
